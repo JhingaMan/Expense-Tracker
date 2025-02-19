@@ -30,6 +30,7 @@ const Signup = async (req, res, next) => {
 
 const Login = async (req, res, next) => {
   try {
+    console.log(req.body)
     const { email, password } = req.body;
     if (!email || !password) {
       return res.json({ message: "All fields are required" });
