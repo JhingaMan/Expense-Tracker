@@ -40,7 +40,7 @@ const Signup = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try{
-      // const response = await fetch("http://localhost:5000/credentials/login)
+      // const response = await fetch("http://localhost:5000/credentials/login)  
     }catch(error){
       console.log(error)
     }

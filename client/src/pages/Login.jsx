@@ -1,6 +1,6 @@
 import React from "react";
 import { useReducer } from "react";
-import { Link } from "react-router-dom";
+import { Link , useNavigate} from "react-router-dom";
 
 const initialState = {
   email: "",
@@ -21,6 +21,7 @@ function reducer(state, action) {
 const Login = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { email, password } = state;
+  const navigate = useNavigate();
 
   const handleText = (e) => {
     dispatch({
@@ -31,19 +32,25 @@ const Login = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    try{
+    try {
       const response = await fetch("http://localhost:5000/credentials/login", {
         method: "post",
         headers: {
-          "Content-Type": "application/json", 
+          "Content-Type": "application/json",
         },
         credentials: "include",
         body: JSON.stringify(state),
       });
       const data = await response.json();
-      console.log(data)      
-    }catch(error){
-      console.log(error)
+      console.log(data);
+      const {success , message} = data
+      if (success) {
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -73,7 +80,12 @@ const Login = () => {
             onChange={handleText}
           />
         </div>
-        <button className="bg-[#1E293B] text-[#38BDF8] m-2 mt-8 p-2 " onClick={(e)=>{handleFormSubmit(e)}}>
+        <button
+          className="bg-[#1E293B] text-[#38BDF8] m-2 mt-8 p-2 "
+          onClick={(e) => {
+            handleFormSubmit(e);
+          }}
+        >
           Login
         </button>
         <div className="flex w-full justify-center ">

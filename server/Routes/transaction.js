@@ -1,9 +1,10 @@
 import express from 'express'
-const router = express.Router()
+import { extractUser } from '../utils/AuthMiddleware.js'
+import { getUserTransaction } from '../Controllers/transactionController.js'
 
-router.get('./add_income', (req,res) => {
-    res.send('hello added income')
-})
+const transactionRouter = express.Router()
 
-export default router
+transactionRouter.get("/get-user-transaction", extractUser , getUserTransaction)
+
+export default transactionRouter
 
