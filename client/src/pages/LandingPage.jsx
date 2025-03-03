@@ -1,7 +1,8 @@
 import React from "react";
 import Dashboard from "../components/Dashboard";
 import Sidebar from "../components/Sidebar";
-import TransactionHistory from "./TransactionHistory";
+import TransactionHistory from "../components/TransactionHistory";
+import { Outlet, Route, Routes } from "react-router-dom";
 
 const LandingPage = () => {
   return (
@@ -10,7 +11,7 @@ const LandingPage = () => {
         <Sidebar />
       </div>
       <div className="h-full w-full flex-[4] pt-4 pb-4 pr-4">
-        <Dashboard />
+        <Outlet />
       </div>
     </>
   );

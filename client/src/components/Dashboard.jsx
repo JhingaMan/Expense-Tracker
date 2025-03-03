@@ -1,82 +1,26 @@
 import React, { useReducer } from "react";
 import { useState, useEffect, useRef } from "react";
 import LineChartComp from "./LineChart";
-
-const initialState = {
-  all_transactions: [],
-  income: "",
-  expense: "",
-  balance: "",
-};
-
-function reducer(state, action) {
-  switch (action.type) {
-    case "setTransaction":
-      const transactions = action.payload;
-
-      const totals = transactions.reduce(
-        (acc, transaction) => {
-          if (transaction.type === "income") acc.income += transaction.amount;
-          else if (transaction.type === "expense")
-            acc.expense += transaction.amount;
-
-          return acc;
-        },
-        { income: 0, expense: 0 }
-      );
-      return {
-        all_transactions: transactions,
-        income: totals.income.toFixed(2),
-        expense: totals.expense.toFixed(2),
-        balance: (totals.income - totals.expense).toFixed(2),
-      };
-
-    default:
-      return state;
-  }
-}
+import { useGlobalContext } from "../utils/GlobalContext";
 
 const Dashboard = () => {
   const chartRef = useRef(null);
   const [width, setWidth] = useState(500);
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [transactionLoaded, setTransactionLoaded] = useState();
 
-  const { all_transactions, income, expense, balance } = state;
-
-  const sortedTransactions_income = [...all_transactions].sort((a, b) => {
-    new Date(a) - new Date(b);
-  });
+  const { all_transactions, income, expense, balance, loadTransactionData } =
+    useGlobalContext();
 
   useEffect(() => {
-    async function loadTransactionData() {
-      try {
-        const response = await fetch(
-          "http://localhost:5000/transaction/get-user-transaction",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-          }
-        );
-
-        const data = await response.json();
-        const { success, transaction } = data;
-        console.log(transaction)
-        dispatch({ type: "setTransaction", payload: transaction });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
     loadTransactionData();
   }, []);
-
+  
   useEffect(() => {
     const updateWidth = () => {
       if (chartRef.current) {
         setWidth(chartRef.current.offsetWidth);
+        // loadTransactionData();
+        console.log("hahahah");
       }
     };
 
@@ -84,6 +28,10 @@ const Dashboard = () => {
     window.addEventListener("resize", updateWidth);
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
+
+  const sortedTransactions_income = [...all_transactions].sort((a, b) => {
+    new Date(a) - new Date(b);
+  });
 
   return (
     <div className="bg-[#0F172A] text-white h-full w-full rounded-3xl flex flex-col">
@@ -95,7 +43,7 @@ const Dashboard = () => {
           className="flex-[3] border-r-1 border-[#7C7C7C] w-full h-full flex flex-col"
           ref={chartRef}
         >
-          <LineChartComp transaction={all_transactions} width={width} />
+          <LineChartComp width={width} />
           <div className="flex flex-col justify-evenly p-2 gap-2">
             <div className="flex gap-2">
               <div className="flex-[1] flex flex-col bg-[#1E293B] gap-2 rounded-xl p-2 pb-3">
@@ -147,8 +95,7 @@ const Dashboard = () => {
               <p>amount</p>
             </div>
           </div>
-          <div className="pt-6">
-          </div>
+          <div className="pt-6"></div>
         </section>
       </div>
     </div>

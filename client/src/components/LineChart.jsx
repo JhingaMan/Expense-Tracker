@@ -8,10 +8,14 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { useGlobalContext } from "../utils/GlobalContext";
 
-const RechartsLineChartComp = ({ transaction, width }) => {
-  const sortedTransactions =
-    [...transaction].sort((a, b) => new Date(a.date) - new Date(b.date))
+const RechartsLineChartComp = ({ width }) => {
+  const { all_transactions } = useGlobalContext();
+
+  const sortedTransactions = [...all_transactions].sort(
+    (a, b) => new Date(a.date) - new Date(b.date)
+  );
 
   const groupedByDate = sortedTransactions.reduce((acc, t) => {
     const dateKey = new Date(t.date).toLocaleDateString();
@@ -25,18 +29,18 @@ const RechartsLineChartComp = ({ transaction, width }) => {
     return acc;
   }, {});
 
-//   console.log(groupedByDate)
+  //   console.log(groupedByDate)
 
   const uniqueDates = Object.keys(groupedByDate).sort(
     (a, b) => new Date(a) - new Date(b)
   );
 
-//   console.log(uniqueDates)
+  //   console.log(uniqueDates)
 
   let cumulativeBalance = 0;
   const chartData = uniqueDates.map((date) => {
     cumulativeBalance += groupedByDate[date];
-    return { date, balance: (cumulativeBalance).toFixed(2) };
+    return { date, balance: cumulativeBalance.toFixed(2) };
   });
 
   return (

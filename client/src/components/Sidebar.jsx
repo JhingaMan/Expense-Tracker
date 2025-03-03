@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
   return (
@@ -10,20 +11,44 @@ const Sidebar = () => {
           <p className="text-sm text-gray-500">Your Money</p>
         </div>
       </header>
-      <section className="flex flex-col pt-4">
-        <div className="text-[#FFFFFF] m-2 p-3 bg-[#1E293B] rounded-xl">
+      <nav className="flex flex-col pt-4">
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            "text-[#FFFFFF] m-2 p-3 rounded-xl " +
+            (isActive ? "bg-[#1E293B]" : "")
+          }
+        >
           Dashboard
-        </div>
-        <div className="text-[#FFFFFF] m-2 p-3 bg-[#1E293B] rounded-xl">
+        </NavLink>
+        <NavLink
+          to="/transactionHistory"
+          className={({ isActive }) =>
+            "text-[#FFFFFF] m-2 p-3 rounded-xl " +
+            (isActive ? "bg-[#1E293B]" : "")
+          }
+        >
           Transaction History
-        </div>
-        <div className="text-[#FFFFFF] m-2 p-3 bg-[#1E293B] rounded-xl">
+        </NavLink>
+        <NavLink
+          to="/income"
+          className={({ isActive }) =>
+            "text-[#FFFFFF] m-2 p-3 rounded-xl " +
+            (isActive ? "bg-[#1E293B]" : "")
+          }
+        >
           Income
-        </div>
-        <div className="text-[#FFFFFF] m-2 p-3 bg-[#1E293B] rounded-xl">
+        </NavLink>
+        <NavLink
+          to="/expense"
+          className={({ isActive }) =>
+            "text-[#FFFFFF] m-2 p-3 rounded-xl " +
+            (isActive ? "bg-[#1E293B]" : "")
+          }
+        >
           Expense
-        </div>
-      </section>
+        </NavLink>
+      </nav>
     </div>
   );
 };

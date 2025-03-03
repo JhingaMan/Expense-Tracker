@@ -1,6 +1,7 @@
 import React from "react";
 import { useReducer } from "react";
-import { Link , useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { GlobalProvider, useGlobalContext } from "../utils/GlobalContext";
 
 const initialState = {
   email: "",
@@ -8,13 +9,6 @@ const initialState = {
 };
 
 function reducer(state, action) {
-  // switch (action.type) {
-  //   case "handleEmailText":
-  //     return { ...state, email: action.payload };
-  //   case "handlePasswordText":
-  //     return { ...state, password: action.payload };
-  // }
-
   return { ...state, [action.field]: action.payload };
 }
 
@@ -22,6 +16,7 @@ const Login = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { email, password } = state;
   const navigate = useNavigate();
+  const { loadTransactionData } = useGlobalContext();
 
   const handleText = (e) => {
     dispatch({
@@ -43,8 +38,8 @@ const Login = () => {
       });
       const data = await response.json();
       console.log(data);
-      const {success , message} = data
-      if (success) {
+      if (data.success) {
+        await loadTransactionData();
         setTimeout(() => {
           navigate("/");
         }, 1000);
