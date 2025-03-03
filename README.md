@@ -4,6 +4,11 @@
 
 A full-stack expense tracker application that allows users to sign up, log in, and view their financial transactions. The project features a modern React-based frontend with a responsive dashboard and a RESTful Express/MongoDB backend to manage user authentication and transaction data.
 
+# Demo
+![WhatsApp Image 2025-03-03 at 18 55 22_96af871f](https://github.com/user-attachments/assets/11909142-72fa-480f-957f-ef2dd4fe66b1)
+![WhatsApp Image 2025-03-03 at 19 30 25_c5ae7dc3](https://github.com/user-attachments/assets/0b542529-2ba3-483f-bcb7-f70c7855f813)
+![WhatsApp Image 2025-03-03 at 20 08 51_7155d0e4](https://github.com/user-attachments/assets/48eb7824-fde8-4569-8d01-13513d31fa4e)
+
 ## Table of Contents
 
 - [Overview](#overview)
